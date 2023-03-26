@@ -1,7 +1,7 @@
 import { GLTFLoader } from 'GLTFLoader';
 
 const gltfLoader = new GLTFLoader();
-const files = ['monke', 'cone'];
+const files = ['monke', 'cone', 'tile'];
 const scenes = [];
 const animations = [];
 let filesLoaded = 0;

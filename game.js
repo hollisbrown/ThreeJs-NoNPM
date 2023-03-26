@@ -1,14 +1,17 @@
 import * as THREE from 'three';
+import * as SkeletonUtils from 'SkeletonUtils';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 
+let mixers = [];
+
 export class Game{
-    constructor(loader){
+    constructor(){
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-        this.loader = loader;
+        window.addEventListener('resize', this.onResize, false);
     }
 
     start(scenes, animations) {
@@ -16,21 +19,50 @@ export class Game{
         scene.add(light);
         light.position.z = 3;
         light.position.y = 2;
-        camera.position.z = 5;
-
-        const geometry = new THREE.BoxGeometry(1, 1, .2);
-        const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-        const cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
         
-        scenes.forEach(elem => {
-            scene.add(elem);
-            elem.position.x
-        });
+        camera.position.y = 10;
+        camera.rotateX(-Math.PI / 2);
+
+        this.addMonke(scenes[0], animations[0], -2, 0);
+        this.addMonke(scenes[0], animations[0], 2, 1);
+
+        for(let x=0; x<10; x++){
+            for(let y=0; y<10; y++){
+                this.addTiles(scenes[2], x, y);
+            }
+        }
     }
 
     update(deltaTime){
+        mixers.forEach(mixer =>{
+            mixer.update(deltaTime);
+        });
+
         renderer.render(scene, camera);
-        //console.log(deltaTime);
+    }
+
+    onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    addMonke(m, c, x, actionId){
+        const clips = c;
+        const model = SkeletonUtils.clone(m);
+        scene.add(model);
+        model.position.x = x;
+
+        const mixer = new THREE.AnimationMixer(model);
+        mixers.push(mixer);
+        const action = mixer.clipAction(clips[actionId]);
+        action.play();
+    }
+
+    addTiles(m, x, y){
+        const model = m.clone();
+        scene.add(model);
+        model.position.x = x - 5;
+        model.position.z = y - 5;
     }
 }

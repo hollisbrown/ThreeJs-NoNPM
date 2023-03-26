@@ -10,6 +10,7 @@ const loader = new Loader();
 const game = new Game(loader);
 loader.start(onLoadingFinished);
 
+
 function onLoadingFinished(scenes, animations) {
     startTime = Date.now();
     game.start(scenes,animations);
@@ -23,3 +24,5 @@ function loop() {
     game.update(deltaTime);
     requestAnimationFrame(loop);
 }
+
+
