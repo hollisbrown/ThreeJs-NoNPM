@@ -22,8 +22,7 @@ export class World {
     constructor(game) {
         this.game = game;
         const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.z = 3;
-        light.position.y = 2;
+        light.position.set(7,4,7);
         this.scene.add(light);
         this.scene.add(this.game.player.object);
 
