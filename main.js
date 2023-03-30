@@ -1,7 +1,6 @@
 import { Loader } from 'loader';
 import { Game } from 'game';
 
-document.interestCohort();
 console.log("hello");
 
 let loader = new Loader(onLoadingFinished);

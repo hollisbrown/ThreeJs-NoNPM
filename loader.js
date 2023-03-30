@@ -10,7 +10,7 @@ export class Loader {
     constructor(onLoadingFinished){
         this.filesLoaded = 0;
         for (let i = 0; i < this.files.length; i++) {
-            let url = "/models/" + this.files[i] + ".glb";
+            let url = "./models/" + this.files[i] + ".glb";
 
             this.gltfLoader.load(
                 url,
