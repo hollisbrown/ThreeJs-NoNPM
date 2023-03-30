@@ -9,6 +9,8 @@ let currentTime = 0;
 let lastTime = 0;
 let deltaTime = 0;
 
+document.interestCohort();
+
 function onLoadingFinished(scenes, animations) {
     startTime = Date.now();
     game = new Game(scenes, animations);
