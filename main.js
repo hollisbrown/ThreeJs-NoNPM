@@ -1,19 +1,17 @@
 import { Loader } from 'loader';
 import { Game } from 'game';
 
+let loader = new Loader(onLoadingFinished);
+let game;
+
 let startTime = 0;
 let currentTime = 0;
 let lastTime = 0;
 let deltaTime = 0;
 
-const loader = new Loader();
-const game = new Game(loader);
-loader.start(onLoadingFinished);
-
-
 function onLoadingFinished(scenes, animations) {
     startTime = Date.now();
-    game.start(scenes,animations);
+    game = new Game(scenes, animations);
     requestAnimationFrame(loop);
 }
 

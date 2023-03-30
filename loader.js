@@ -1,27 +1,26 @@
 import { GLTFLoader } from 'GLTFLoader';
 
-const gltfLoader = new GLTFLoader();
-const files = ['monke', 'cone', 'tile'];
-const scenes = [];
-const animations = [];
-let filesLoaded = 0;
-
 export class Loader {
+    gltfLoader = new GLTFLoader();
+    files = ['monke', 'cone', 'tile'];
+    scenes = [];
+    animations = [];
+    filesLoaded;
 
-    start(onLoadingFinished) {
-        filesLoaded = 0;
-        for (let i = 0; i < files.length; i++) {
-            let url = "/models/" + files[i] + ".glb";
-            
-            gltfLoader.load(
+    constructor(onLoadingFinished){
+        this.filesLoaded = 0;
+        for (let i = 0; i < this.files.length; i++) {
+            let url = "/models/" + this.files[i] + ".glb";
+
+            this.gltfLoader.load(
                 url,
-                function (file) {
-                    filesLoaded += 1;
-                    scenes[i] = file.scene;
-                    animations[i] = file.animations;
+                (file) => {
+                    this.filesLoaded += 1;
+                    this.scenes[i] = file.scene;
+                    this.animations[i] = file.animations;
 
-                    if (filesLoaded == files.length) {
-                        onLoadingFinished(scenes, animations);
+                    if (this.filesLoaded == this.files.length) {
+                        onLoadingFinished(this.scenes, this.animations);
                     }
 
                     // file.animations; // Array<THREE.AnimationClip>
@@ -30,15 +29,13 @@ export class Loader {
                     // file.cameras; // Array<THREE.Camera>
                     // file.asset; // Object
                 },
-                function (xhr) {
+                (xhr) => {
                     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
                 },
-                function (error) {
+                (error) => {
                     console.log(error);
                 }
             );
         }
     }
-
-
 }
